@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import { fetchSignInMethodsForEmail, getAuth } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-    //Dimensions,
+    ActivityIndicator,
+    Alert,
     Keyboard,
     KeyboardAvoidingView,
     Platform,
@@ -18,19 +20,53 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../../constants/Colors';
 import { Typography } from '../../constants/Typography';
 
-//const { width } = Dimensions.get('window');
-
 export default function EmailOnboarding() {
     const router = useRouter();
     const [email, setEmail] = useState('');
-
-    // const handleContinue = () => {
-    //     // For now, just navigate to the phone screen
-    //     router.push('/(onboarding)/phone' as any);
-    // };
+    const [isLoading, setIsLoading] = useState(false);
+    const inputRef = useRef<TextInput>(null);
 
     const handleBack = () => {
         router.back();
+    };
+
+    const handleContinue = async () => {
+        const trimmedEmail = email.trim().toLowerCase();
+
+        if (!trimmedEmail.endsWith('.edu.qa')) {
+            Alert.alert(
+                'Invalid Email',
+                'Please enter a valid student email ending in .edu.qa'
+            );
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const auth = getAuth();
+            const methods = await fetchSignInMethodsForEmail(auth, trimmedEmail);
+            const exists = methods.length > 0;
+
+            if (exists) {
+                Alert.alert(
+                    'Email Taken',
+                    'This email is already in use. Please login or use a different email.'
+                );
+                setIsLoading(false);
+                return;
+            }
+
+            router.push({
+                pathname: '/(onboarding)/phone',
+                params: { email: trimmedEmail }
+            } as any);
+        } catch (err) {
+            console.error(err);
+            Alert.alert('Error', 'An error occurred. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -67,8 +103,13 @@ export default function EmailOnboarding() {
                         </View>
 
                         <View style={styles.inputWrapper}>
-                            <View style={styles.singleInputContainer}>
+                            <TouchableOpacity
+                                style={styles.singleInputContainer}
+                                activeOpacity={1}
+                                onPress={() => inputRef.current?.focus()}
+                            >
                                 <TextInput
+                                    ref={inputRef}
                                     style={styles.input}
                                     placeholder="Student Email"
                                     placeholderTextColor="#999"
@@ -77,8 +118,9 @@ export default function EmailOnboarding() {
                                     autoCorrect={false}
                                     value={email}
                                     onChangeText={setEmail}
+                                    editable={!isLoading}
                                 />
-                            </View>
+                            </TouchableOpacity>
                         </View>
 
                         <Text style={styles.infoText}>
@@ -93,21 +135,16 @@ export default function EmailOnboarding() {
                     style={styles.footer}
                 >
                     <TouchableOpacity
-                        style={[styles.button, !email && styles.buttonDisabled]}
-                        onPress={() => {
-                            if (!email.trim().endsWith('.edu.qa')) {
-                                alert('Please enter a valid student email ending in .edu.qa');
-                                return;
-                            }
-                            router.push({
-                                pathname: '/(onboarding)/phone',
-                                params: { email: email.trim() }
-                            } as any);
-                        }}
-                        disabled={!email}
+                        style={[styles.button, (!email || isLoading) && styles.buttonDisabled]}
+                        onPress={handleContinue}
+                        disabled={!email || isLoading}
                         activeOpacity={0.8}
                     >
-                        <Text style={styles.buttonText}>Continue</Text>
+                        {isLoading ? (
+                            <ActivityIndicator color="white" />
+                        ) : (
+                            <Text style={styles.buttonText}>Continue</Text>
+                        )}
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>
