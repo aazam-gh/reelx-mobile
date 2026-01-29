@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { fetchSignInMethodsForEmail, getAuth } from '@react-native-firebase/auth';
+import { getAuth } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from 'react';
@@ -44,8 +44,7 @@ export default function EmailOnboarding() {
         setIsLoading(true);
 
         try {
-            const auth = getAuth();
-            const methods = await fetchSignInMethodsForEmail(auth, trimmedEmail);
+            const methods = await getAuth().fetchSignInMethodsForEmail(trimmedEmail);
             const exists = methods.length > 0;
 
             if (exists) {
