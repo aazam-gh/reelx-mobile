@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Typography } from '../../constants/Typography';
 
+
 const { width: screenWidth } = Dimensions.get('window');
 const BANNER_WIDTH = screenWidth - 40;
 
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         position: 'relative',
     },
-leftCutout: {
+    leftCutout: {
         position: 'absolute',
         left: -(CUTOUT_SIZE / 2), // Move half the circle outside the banner
         top: '50%',

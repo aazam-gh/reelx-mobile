@@ -1,47 +1,38 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
-import { Colors } from '../../constants/Colors';
-import { Typography } from '../../constants/Typography';
+import { withLayoutContext } from 'expo-router';
+import {
+  createNativeBottomTabNavigator,
+  NativeBottomTabNavigationOptions,
+  NativeBottomTabNavigationEventMap,
+} from '@bottom-tabs/react-navigation';
+import { ParamListBase, TabNavigationState } from '@react-navigation/native';
+
+const BottomTabNavigator = createNativeBottomTabNavigator().Navigator;
+
+const Tabs = withLayoutContext<
+  NativeBottomTabNavigationOptions,
+  typeof BottomTabNavigator,
+  TabNavigationState<ParamListBase>,
+  NativeBottomTabNavigationEventMap
+>(BottomTabNavigator);
+
 
 export default function TabLayout() {
     return (
         <Tabs
-            screenOptions={{
-                tabBarActiveTintColor: Colors.dark.tint,
-                headerTitleStyle: {
-                    fontFamily: Typography.metropolis.semiBold,
-                },
-                tabBarLabelStyle: {
-                    fontFamily: Typography.metropolis.medium,
-                },
-                headerStyle: {
-                    backgroundColor: Colors.dark.background,
-                },
-                headerShadowVisible: false,
-                headerTintColor: Colors.dark.text,
-                tabBarStyle: {
-                    backgroundColor: Colors.dark.background,
-                },
-                tabBarShowLabel: true,
-                headerShown: false,
-            }}
         >
             <Tabs.Screen
                 name="index"
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({ color, focused }) => (
-                        <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-                    ),
+                    tabBarIcon: () => ({ sfSymbol: "house" }),
+
                 }}
             />
             <Tabs.Screen
                 name="about"
                 options={{
                     title: 'About',
-                    tabBarIcon: ({ color, focused }) => (
-                        <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24} />
-                    ),
+                    tabBarIcon: () => ({ sfSymbol: "person" }),
                 }} />
         </Tabs>
     );
