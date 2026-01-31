@@ -44,6 +44,17 @@ export default function TabLayout() {
                             : <Ionicons name={props.focused ? 'card' : 'card-outline'} size={24} color={props.color} />,
                 }}
             />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    headerShown: false,
+                    tabBarIcon: (props: any) =>
+                        Platform.OS === 'ios'
+                            ? ({ sfSymbol: 'person.fill' } as any)
+                            : <Ionicons name={props.focused ? 'person' : 'person-outline'} size={24} color={props.color} />,
+                }}
+            />
         </Tabs>
     );
 }
