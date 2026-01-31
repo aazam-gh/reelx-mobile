@@ -34,14 +34,14 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="about"
+                name="wallet"
                 options={{
-                    title: 'About',
+                    title: 'Wallet',
                     headerShown: false,
                     tabBarIcon: (props: any) =>
                         Platform.OS === 'ios'
-                            ? ({ sfSymbol: 'person' } as any)
-                            : <Ionicons name={props.focused ? 'person' : 'person-outline'} size={24} color={props.color} />,
+                            ? ({ sfSymbol: 'creditcard.fill' } as any)
+                            : <Ionicons name={props.focused ? 'card' : 'card-outline'} size={24} color={props.color} />,
                 }}
             />
         </Tabs>
