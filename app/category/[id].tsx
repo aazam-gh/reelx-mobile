@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, StatusBar, StyleSheet } from 'react-native';
+import { ImageSourcePropType, ScrollView, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
     BrowseSection,
@@ -15,7 +15,7 @@ import { Colors } from '../../constants/Colors';
 // Category configuration map
 const categoryConfig: Record<string, {
     title: string;
-    icon: string;
+    icon: string | ImageSourcePropType;
     subCategories: { id: string; name: string; icon: string }[];
     promos: {
         id: string;
@@ -37,7 +37,7 @@ const categoryConfig: Record<string, {
 }> = {
     food: {
         title: 'Food',
-        icon: '🍽️',
+        icon: require('../../assets/images/food.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '🍽️' },
             { id: 'burgers', name: 'Burgers', icon: '🍔' },
@@ -84,7 +84,7 @@ const categoryConfig: Record<string, {
     },
     coffee: {
         title: 'Coffee',
-        icon: '☕',
+        icon: require('../../assets/images/coffee.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '☕' },
             { id: 'latte', name: 'Latte', icon: '🥛' },
@@ -121,7 +121,7 @@ const categoryConfig: Record<string, {
     },
     grocery: {
         title: 'Grocery',
-        icon: '🛒',
+        icon: require('../../assets/images/grocery.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '🛒' },
             { id: 'fruits', name: 'Fruits', icon: '🍎' },
@@ -158,7 +158,7 @@ const categoryConfig: Record<string, {
     },
     pharma: {
         title: 'Pharma',
-        icon: '💊',
+        icon: require('../../assets/images/pharma.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '💊' },
             { id: 'medicines', name: 'Medicines', icon: '💉' },
@@ -185,7 +185,7 @@ const categoryConfig: Record<string, {
     },
     entertainer: {
         title: 'Entertainer',
-        icon: '🎮',
+        icon: require('../../assets/images/entertainer.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '🎮' },
             { id: 'movies', name: 'Movies', icon: '🎬' },
@@ -212,7 +212,7 @@ const categoryConfig: Record<string, {
     },
     books: {
         title: 'Books',
-        icon: '📚',
+        icon: require('../../assets/images/books.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '📚' },
             { id: 'fiction', name: 'Fiction', icon: '📖' },
@@ -239,7 +239,7 @@ const categoryConfig: Record<string, {
     },
     electronics: {
         title: 'Electronics',
-        icon: '🎧',
+        icon: require('../../assets/images/electronics.png'),
         subCategories: [
             { id: 'all', name: 'All', icon: '🎧' },
             { id: 'phones', name: 'Phones', icon: '📱' },

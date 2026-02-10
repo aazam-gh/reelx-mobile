@@ -1,13 +1,12 @@
 import { useRouter } from 'expo-router';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { Typography } from '../../constants/Typography';
 
 type CategoryItem = {
     id: string;
     name: string;
-    icon: string;
-    backgroundColor: string;
+    image: any;
 };
 
 type Props = {
@@ -16,14 +15,14 @@ type Props = {
 };
 
 const defaultCategories: CategoryItem[] = [
-    { id: 'coffee', name: 'Coffee', icon: '☕', backgroundColor: '#E8F5E9' },
-    { id: 'food', name: 'Food', icon: '🍕', backgroundColor: '#E3F2FD' },
-    { id: 'grocery', name: 'Grocery', icon: '🛒', backgroundColor: '#FFF3E0' },
-    { id: 'pharma', name: 'Pharma', icon: '💊', backgroundColor: '#E8F5E9' },
-    { id: 'entertainer', name: 'Entertainer', icon: '🎮', backgroundColor: '#FCE4EC' },
-    { id: 'books', name: 'Books', icon: '📚', backgroundColor: '#E3F2FD' },
-    { id: 'electronics', name: 'Electronics', icon: '🎧', backgroundColor: '#EDE7F6' },
-    { id: 'see-more', name: 'See More', icon: '›', backgroundColor: '#E8F5E9' },
+    { id: 'coffee', name: 'Coffee', image: require('../../assets/images/coffee.png') },
+    { id: 'food', name: 'Food', image: require('../../assets/images/food.png') },
+    { id: 'grocery', name: 'Grocery', image: require('../../assets/images/grocery.png') },
+    { id: 'pharma', name: 'Pharma', image: require('../../assets/images/pharma.png') },
+    { id: 'entertainer', name: 'Entertainer', image: require('../../assets/images/entertainer.png') },
+    { id: 'books', name: 'Books', image: require('../../assets/images/books.png') },
+    { id: 'electronics', name: 'Electronics', image: require('../../assets/images/electronics.png') },
+    { id: 'see-more', name: 'See More', image: require('../../assets/images/see-more.png') },
 ];
 
 export default function CategoryGrid({ categories = defaultCategories, onCategoryPress }: Props) {
@@ -43,14 +42,8 @@ export default function CategoryGrid({ categories = defaultCategories, onCategor
             onPress={() => handleCategoryPress(item)}
             activeOpacity={0.7}
         >
-            <View style={[styles.iconContainer, { backgroundColor: item.backgroundColor }]}>
-                {item.id === 'see-more' ? (
-                    <View style={styles.seeMoreContainer}>
-                        <Text style={styles.seeMoreIcon}>{item.icon}</Text>
-                    </View>
-                ) : (
-                    <Text style={styles.categoryIcon}>{item.icon}</Text>
-                )}
+            <View style={styles.imageContainer}>
+                <Image source={item.image} style={styles.categoryImage} resizeMode="contain" />
             </View>
             <Text style={styles.categoryName}>{item.name}</Text>
         </TouchableOpacity>
@@ -65,7 +58,6 @@ export default function CategoryGrid({ categories = defaultCategories, onCategor
                 numColumns={4}
                 scrollEnabled={false}
                 columnWrapperStyle={styles.row}
-                contentContainerStyle={styles.gridContent}
             />
         </View>
     );
@@ -76,50 +68,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 16,
     },
-    gridContent: {
-        gap: 16,
-    },
     row: {
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         marginBottom: 16,
     },
     categoryItem: {
         alignItems: 'center',
         width: '23%',
     },
-    iconContainer: {
-        width: 72,
-        height: 72,
-        borderRadius: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
+    imageContainer: {
         marginBottom: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
-        elevation: 2,
     },
-    categoryIcon: {
-        fontSize: 32,
+    categoryImage: {
+        width: 80,
+        height: 80,
     },
     categoryName: {
         fontSize: 12,
         fontFamily: Typography.metropolis.medium,
         color: Colors.light.text,
         textAlign: 'center',
-    },
-    seeMoreContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 8,
-        backgroundColor: Colors.brandGreen,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    seeMoreIcon: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        fontWeight: 'bold',
     },
 });

@@ -1,15 +1,17 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { Typography } from '../../constants/Typography';
 
 type Props = {
     title: string;
-    icon?: string;
+    icon?: string | ImageSourcePropType;
     onBackPress?: () => void;
 };
 
 export default function CategoryHeader({ title, icon = '🍽️', onBackPress }: Props) {
+    const isEmoji = typeof icon === 'string';
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -20,7 +22,11 @@ export default function CategoryHeader({ title, icon = '🍽️', onBackPress }:
                 <Ionicons name="arrow-back" size={24} color={Colors.light.text} />
             </TouchableOpacity>
             <View style={styles.titleContainer}>
-                <Text style={styles.icon}>{icon}</Text>
+                {isEmoji ? (
+                    <Text style={styles.icon}>{icon}</Text>
+                ) : (
+                    <Image source={icon} style={styles.imageIcon} resizeMode="contain" />
+                )}
                 <Text style={styles.title}>{title}</Text>
             </View>
         </View>
@@ -54,5 +60,9 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: Typography.metropolis.semiBold,
         color: Colors.light.text,
+    },
+    imageIcon: {
+        width: 40,
+        height: 40,
     },
 });

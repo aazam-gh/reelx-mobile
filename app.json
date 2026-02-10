@@ -8,6 +8,9 @@
     "scheme": "reelx",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.reelx.app",
@@ -31,7 +34,9 @@
     },
     "plugins": [
       "expo-router",
-      ["react-native-bottom-tabs"],
+      [
+        "react-native-bottom-tabs"
+      ],
       [
         "expo-splash-screen",
         {
@@ -72,7 +77,8 @@
       ],
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
